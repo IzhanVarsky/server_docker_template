@@ -8,8 +8,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git python3-pip cmake
 
 RUN pip3 install torch==1.12.1+cu113 torchvision==0.13.1+cu113 torchaudio==0.12.1 --extra-index-url https://download.pytorch.org/whl/cu113
 
-RUN pip3 install -r ./requirements.txt
+COPY ./requirements.txt ./requirements.txt
 WORKDIR .
+RUN pip3 install -r ./requirements.txt
 
 #EXPOSE 9012
 
