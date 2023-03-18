@@ -42,7 +42,9 @@ This is a template to run your models with Docker on GPU.
   stopping (it saves memory).
 * In [docker_run_container_port.sh](docker_run_container_port.sh) the exposed port is set and the container will be
   automatically restarted after system restarting. This type of running is needed only when you're deploying a server
-  which have to "communicate" with the rest world. In this
+  which have to "communicate" with the rest world. In this case, you will first be given by admins a free port through
+  which you can receive requests, after that you need to specify this port in the [Dockerfile](Dockerfile)
+  via `EXPOSE port` and also specify the port for running using `-p port:port`.
 * The desired Base Docker Image for Nvidia GPU and CUDA can be
   founded [here](https://hub.docker.com/r/nvidia/cuda/tags).
 
