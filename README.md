@@ -26,16 +26,17 @@ This is a template to run your models with Docker on GPU.
   run `./repair_bash_scripts_on_linux.sh`.
 * If the docker building in the very begging is very slow because of context searching, write the huge files and huge
   folders in the [.dockerignore](.dockerignore) file.
-* If there's an error while building, and it is suggested to run `apt-get update`, build the docker image
-  with `--no-cache` option.
-* There were also an error with Nvidia security bug, so if your `apt-get update` fails, you can add:
-``
-RUN rm /etc/apt/sources.list.d/cuda.list
-RUN apt-key del 7fa2af80
-RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
-``
-before `RUN apt-get update`.
-!!! UPD: seems to be fixed by Nvidia and there's no need to use this!
+* If there's an error with `apt install` while building, and docker suggests to run `apt-get update`, build the docker
+  image with `--no-cache` option. (Add this option in [docker_build_image.sh](docker_build_image.sh), note: building
+  with `--no-cache` may process very long time and sometimes cause new bugs/issues)
+* There were also an error with Nvidia security bug, so if your `RUN apt-get update` fails, you can add:
+  ``
+  RUN rm /etc/apt/sources.list.d/cuda.list
+  RUN apt-key del 7fa2af80
+  RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
+  ``
+  before `RUN apt-get update`.
+  !!! UPD: seems to be fixed by Nvidia and there's no need to use this!
 * In [docker_run_container_rm.sh](docker_run_container_rm.sh) the container will be automatically removed after
   stopping (it saves memory).
 * In [docker_run_container_port.sh](docker_run_container_port.sh) the exposed port is set and the container will be
