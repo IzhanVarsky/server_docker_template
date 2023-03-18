@@ -30,12 +30,13 @@ This is a template to run your models with Docker on GPU.
   image with `--no-cache` option. (Add this option in [docker_build_image.sh](docker_build_image.sh), note: building
   with `--no-cache` may process very long time and sometimes cause new bugs/issues)
 * There were also an error with Nvidia security bug, so if your `RUN apt-get update` fails, you can add:
-  ``
+  ```
   RUN rm /etc/apt/sources.list.d/cuda.list
   RUN apt-key del 7fa2af80
   RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
-  ``
+  ```
   before `RUN apt-get update`.
+
   !!! UPD: seems to be fixed by Nvidia and there's no need to use this!
 * In [docker_run_container_rm.sh](docker_run_container_rm.sh) the container will be automatically removed after
   stopping (it saves memory).
