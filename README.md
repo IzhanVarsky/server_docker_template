@@ -40,9 +40,19 @@ This is a template to run your models with Docker on GPU.
 * In [docker_run_container_rm.sh](docker_run_container_rm.sh) the container will be automatically removed after
   stopping (it saves memory).
 * In [docker_run_container_port.sh](docker_run_container_port.sh) the exposed port is set and the container will be
-  automatically restarted after system restarting.
+  automatically restarted after system restarting. This type of running is needed only when you're deploying a server
+  which have to "communicate" with the rest world. In this
 * The desired Base Docker Image for Nvidia GPU and CUDA can be
   founded [here](https://hub.docker.com/r/nvidia/cuda/tags).
+
+### How to manipulate with Docker
+
+1. To stop docker container, run `docker ps`, which will display current running containers, find the id of your
+   container and run `docker stop your_container_id`.
+2. To view all create images and their statuses, run `docker images`.
+3. To remove the container, run `docker rm your_container_id`.
+4. To remove the image, run `docker rmi your_image_id`.
+5. Find more info [here](https://docs.docker.com/).
 
 ### P.S.
 
