@@ -24,6 +24,8 @@ This is a template to run your models with Docker on GPU.
 * If `*.sh` files cannot run, run `chmod 777 your_script_name.sh`.
 * If there's `bash: ./script.sh: /bin/bash^M: bad interpreter: No such file or directory` error,
   run `./repair_bash_scripts_on_linux.sh`.
+* If the docker building in the very begging is very slow because of context searching, write the huge files and huge
+  folders in the [.dockerignore](.dockerignore) file.
 * In [docker_run_container_rm.sh](docker_run_container_rm.sh) the container will be automatically removed after
   stopping (it saves memory).
 * In [docker_run_container_port.sh](docker_run_container_port.sh) the exposed port is set and the container will be
