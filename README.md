@@ -47,6 +47,7 @@ This is a template to run your models with Docker on GPU.
   via `EXPOSE port` and also specify the port for running using `-p port:port`.
 * The desired Base Docker Image for Nvidia GPU and CUDA can be
   founded [here](https://hub.docker.com/r/nvidia/cuda/tags).
+* Do not install OpenCV (cv2) as `pip install opencv-python`, use only `pip install opencv-python-headless`!
 
 ### How to manipulate with Docker
 
