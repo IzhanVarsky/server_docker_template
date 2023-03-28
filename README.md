@@ -16,7 +16,7 @@ This is a template to run your models with Docker on GPU.
 * For example, I use `rsync -chavzP --stats ./my_files admin@my_host:/my_storage/ --exclude '*venv*'`.
 
 7. Run `./docker_build_image.sh` to build your docker image.
-8. After image building run `./docker_run_container_rm.sh` or `./docker_run_container_port.sh` run your container which
+8. After image building run `./docker_run_container_rm.sh` or `./docker_run_container_port.sh` which
    will run your model.
 
 ### Notes, bugs, errors...
