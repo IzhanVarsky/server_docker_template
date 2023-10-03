@@ -5,9 +5,8 @@ This is a template to run your models with Docker on GPU.
 ### Setting up
 
 1. Write the requirements for the `pip` in [requirements.txt](requirements.txt).
-2. Name your docker image in `docker_*.sh` files.
-3. Edit the [Dockerfile](Dockerfile) if needed. For example, expose the port or change the `torch` versions or install
-   something else.
+2. **Set the name** of your docker image in `docker_*.sh` files.
+3. Edit the [Dockerfile](Dockerfile) if needed. For example, change the `torch` versions or install something else.
 4. In this Dockerfile you don't need to copy the files to the image using `COPY` command since it is linked with the
    local volume.
 5. The commands to run are defined in [entry.sh](entry.sh).
@@ -16,8 +15,7 @@ This is a template to run your models with Docker on GPU.
 * For example, I use `rsync -chavzP --stats ./my_files admin@my_host:/my_storage/ --exclude '*venv*'`.
 
 7. Run `./docker_build_image.sh` to build your docker image.
-8. After image building run `./docker_run_container_rm.sh` or `./docker_run_container_port.sh` which
-   will run your model.
+8. After image building run `./docker_run_container.sh` script which will run your model.
 
 ### Notes, bugs, errors...
 
@@ -29,25 +27,25 @@ This is a template to run your models with Docker on GPU.
 * If there's an error with `apt install` while building, and docker suggests to run `apt-get update`, build the docker
   image with `--no-cache` option. (Add this option in [docker_build_image.sh](docker_build_image.sh), note: building
   with `--no-cache` may process very long time and sometimes cause new bugs/issues)
-* There were also an error with Nvidia security bug, so if your `RUN apt-get update` fails, you can add:
-  ```
-  RUN rm /etc/apt/sources.list.d/cuda.list
-  RUN apt-key del 7fa2af80
-  RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
-  ```
-  before `RUN apt-get update`.
 
-  !!! UPD: seems to be fixed by Nvidia and there's no need to use this!
-* In [docker_run_container_rm.sh](docker_run_container_rm.sh) the container will be automatically removed after
-  stopping (it saves memory).
-* In [docker_run_container_port.sh](docker_run_container_port.sh) the exposed port is set and the container will be
-  automatically restarted after system restarting. This type of running is needed only when you're deploying a server
-  which have to "communicate" with the rest world. In this case, you will first be given by admins a free port through
-  which you can receive requests, after that you need to specify this port in the [Dockerfile](Dockerfile)
-  via `EXPOSE port` and also specify the port for running using `-p port:port`.
+**USEFUL options for running container** which can be added in [docker_run_container.sh](docker_run_container.sh)
+script:
+
+* `--rm` - the container will be automatically removed after stopping. Use it, because it saves disk memory.
+* `-p 9012:9012` - exposes the port 9012.
+  This type of running is needed only when you're deploying a server which have
+  to "communicate" with the rest world.
+  In this case, you will first be given by admins a free port through which you
+  can receive requests, after that you need to specify the port
+  for running using `-p port:port`.
+* `--restart=always` - the container will be automatically restarted after system restarting.
+  Use this option **only** if your container is a service which have to run after system hard restarts.
+* `-v path_on_your_disk:path_in_your_container` - enable data sharing from your local path to the container.
+  It doesn't copy files, it only opens access to your specific data (folder/file).
+
 * The desired Base Docker Image for Nvidia GPU and CUDA can be
-  founded [here](https://hub.docker.com/r/nvidia/cuda/tags).
-* Do not install OpenCV (cv2) as `pip install opencv-python`, use only `pip install opencv-python-headless`!
+  founded here: https://hub.docker.com/r/nvidia/cuda/tags.
+* Do not install OpenCV (cv2) using `pip install opencv-python`, use only `pip install opencv-python-headless`!
 
 ### How to manipulate with Docker
 
@@ -56,7 +54,7 @@ This is a template to run your models with Docker on GPU.
 2. To view all create images and their statuses, run `docker images`.
 3. To remove the container, run `docker rm your_container_id`.
 4. To remove the image, run `docker rmi your_image_id`.
-5. Find more info [here](https://docs.docker.com/).
+5. Find more info here: https://docs.docker.com.
 
 ### P.S.
 
